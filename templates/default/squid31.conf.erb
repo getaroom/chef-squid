@@ -1,4 +1,4 @@
-# stops caching, se we're proxy only
+# stops caching, since we're proxy only
 cache deny all
 access_log /var/log/squid/access.log squid
 cache_store_log /var/log/squid/store.log squid
@@ -29,7 +29,7 @@ http_access deny manager
 http_access deny purge
 http_access deny !Safe_ports
 http_access deny all
-http_port 3128
+http_port <%= node[:squid][:port] %>
 icp_access allow localnet
 icp_access deny all
 refresh_pattern .		0	20%	4320
