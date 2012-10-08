@@ -94,13 +94,14 @@ rescue
   Chef::Log.info "no 'squid_acls' data bag"
 end
 
-template "/etc/squid/chef.acl.config" do
-  source "chef.acl.config.erb"
-  variables(
-    :acls => acls,
-    :host_acl => host_acl,
-    :url_acl => url_acl
-    )
-  notifies :reload, "service[squid]"
+unless acls.empty? && host_acl.empty? && url_acl.empty?
+  template "/etc/squid/chef.acl.config" do
+    source "chef.acl.config.erb"
+    variables(
+      :acls => acls,
+      :host_acl => host_acl,
+      :url_acl => url_acl
+      )
+    notifies :reload, "service[squid]"
+  end
 end
-
