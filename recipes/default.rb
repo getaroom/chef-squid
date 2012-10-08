@@ -22,16 +22,19 @@ package "squid" do
   action :install
 end
 
+service_name = node['squid']['service_name']
+Chef::Log.info "Squid service name #{service_name}"
+
 case node['platform']
 when "redhat","centos","scientific","fedora","suse"
   template "/etc/sysconfig/squid" do
     source "redhat/sysconfig/squid.erb"
-    notifies :restart, "service[squid]", :delayed
+    notifies :restart, "service[#{service_name}]", :delayed
     mode "644"
   end
 end
 
-service "squid" do
+service service_name do
   supports :restart => true, :status => true, :reload => true
   case node['platform']
   when "redhat","centos","scientific","fedora","suse"
@@ -54,7 +57,7 @@ Chef::Log.info "Squid version number (unknown if blank): #{version}"
 
 template "/etc/squid/squid.conf" do
   source "squid#{version}.conf.erb"
-  notifies :reload, "service[squid]"
+  notifies :reload, "service[#{service_name}]"
   mode "644"
 end
 
@@ -102,6 +105,6 @@ unless acls.empty? && host_acl.empty? && url_acl.empty?
       :host_acl => host_acl,
       :url_acl => url_acl
       )
-    notifies :reload, "service[squid]"
+    notifies :reload, "service[#{service_name}]"
   end
 end

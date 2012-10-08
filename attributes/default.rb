@@ -23,3 +23,4 @@ default['squid']['network'] = nil
 default['squid']['timeout'] = "10"
 default['squid']['opts'] = ""
 default['squid']['version'] = ""
+default['squid']['service_name'] = "squid"
