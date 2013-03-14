@@ -34,6 +34,14 @@ when "redhat","centos","scientific","fedora","suse"
   end
 end
 
+directory ['squid']['log_dir'] do
+  owner "proxy"
+  group "proxy"
+  mode "0640"
+  recursive true
+  action :create
+end
+
 service service_name do
   supports :restart => true, :status => true, :reload => true
   case node['platform']
