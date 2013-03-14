@@ -34,7 +34,7 @@ when "redhat","centos","scientific","fedora","suse"
   end
 end
 
-directory ['squid']['log_dir'] do
+directory node['squid']['log_dir'] do
   owner "proxy"
   group "proxy"
   mode "0640"
