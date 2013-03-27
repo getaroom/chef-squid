@@ -37,7 +37,7 @@ end
 directory node['squid']['log_dir'] do
   owner "proxy"
   group "proxy"
-  mode "0640"
+  mode "755"
   recursive true
   action :create
 end
