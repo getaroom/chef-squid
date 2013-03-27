@@ -1,8 +1,8 @@
 # stops caching, since we're proxy only
 cache deny all
-access_log <%= node[:squid][:log_dir] %>access.log squid
-cache_store_log <%= node[:squid][:log_dir] %>store.log squid
-cache_log <%= node[:squid][:log_dir] %>cache.log squid
+access_log <%= node[:squid][:log_dir] %>/access.log squid
+cache_store_log <%= node[:squid][:log_dir] %>/store.log squid
+cache_log <%= node[:squid][:log_dir] %>/cache.log squid
 logfile_rotate 0
 acl all src all
 acl apache rep_header Server ^Apache
