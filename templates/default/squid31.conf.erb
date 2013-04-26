@@ -29,10 +29,10 @@ http_access deny manager
 http_access deny purge
 http_access deny !Safe_ports
 http_access deny all
-http_port <%= node[:squid][:port] %>
 icp_access allow localnet
 icp_access deny all
 refresh_pattern .		0	20%	4320
+http_port <%= node['squid']['port'] %>
 refresh_pattern ^ftp:		1440	20%	10080
 refresh_pattern ^gopher:	1440	0%	1440
 refresh_pattern -i (/cgi-bin/|\?) 0	0%	0

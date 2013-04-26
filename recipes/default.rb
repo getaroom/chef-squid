@@ -26,11 +26,11 @@ service_name = node['squid']['service_name']
 Chef::Log.info "Squid service name #{service_name}"
 
 case node['platform']
-when "redhat","centos","scientific","fedora","suse"
+when "redhat","centos","scientific","fedora","suse","amazon"
   template "/etc/sysconfig/squid" do
     source "redhat/sysconfig/squid.erb"
     notifies :restart, "service[#{service_name}]", :delayed
-    mode "644"
+    mode 00644
   end
 end
 
@@ -45,7 +45,7 @@ end
 service service_name do
   supports :restart => true, :status => true, :reload => true
   case node['platform']
-  when "redhat","centos","scientific","fedora","suse"
+  when "redhat","centos","scientific","fedora","suse","amazon"
     provider Chef::Provider::Service::Redhat
   when "debian","ubuntu"
     provider Chef::Provider::Service::Upstart
@@ -66,7 +66,7 @@ Chef::Log.info "Squid version number (unknown if blank): #{version}"
 template node['squid']['configuration_file'] do
   source "squid#{version}.conf.erb"
   notifies :reload, "service[#{service_name}]"
-  mode "644"
+  mode 00644
 end
 
 url_acl = []
