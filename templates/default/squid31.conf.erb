@@ -4,6 +4,10 @@ access_log <%= node[:squid][:log_dir] %>/access.log squid
 cache_store_log <%= node[:squid][:log_dir] %>/store.log squid
 cache_log <%= node[:squid][:log_dir] %>/cache.log squid
 logfile_rotate 0
+
+# include must be before all other acls for precedence
+include <%= node['squid']['confdir'] %>/chef.acl.config
+
 acl all src all
 acl apache rep_header Server ^Apache
 acl CONNECT method CONNECT
@@ -32,7 +36,9 @@ http_access deny all
 icp_access allow localnet
 icp_access deny all
 refresh_pattern .		0	20%	4320
-http_port <%= node['squid']['port'] %>
+<% node['squid']['port'].to_s.split.each do |port|  %>
+http_port <%= port %>
+<% end %>
 refresh_pattern ^ftp:		1440	20%	10080
 refresh_pattern ^gopher:	1440	0%	1440
 refresh_pattern -i (/cgi-bin/|\?) 0	0%	0

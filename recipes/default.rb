@@ -106,7 +106,7 @@ rescue
 end
 
 unless acls.empty? && host_acl.empty? && url_acl.empty?
-  template "/etc/squid/chef.acl.config" do
+  template "#{node['squid']['confdir']}/chef.acl.config" do
     source "chef.acl.config.erb"
     variables(
       :acls => acls,
